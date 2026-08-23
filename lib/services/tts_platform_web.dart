@@ -17,6 +17,12 @@ extension type _SpeechSynthesisUtterance._(JSObject _) implements JSObject {
   external String lang;
   external double rate;
   external _SpeechSynthesisVoice? voice;
+
+  @JS('onend')
+  external set onEnd(JSFunction listener);
+
+  @JS('onerror')
+  external set onError(JSFunction listener);
 }
 
 @JS()
@@ -30,7 +36,13 @@ extension type _SpeechSynthesisVoice._(JSObject _) implements JSObject {
 /// MethodChannel을 거치면 그 사이에 비동기 경계가 끼어들 수 있어 이 제약을
 /// 못 지킬 위험이 있다. 음성 목록도 매번 새로 조회해서, 페이지 로드 직후라
 /// 아직 목록이 안 채워졌더라도 다음 재생 때는 자동으로 태국어 음성을 찾는다.
+///
+/// [_currentUtterance]는 Safari의 알려진 버그(발음 객체를 지역 변수로만 두면
+/// 재생 도중 가비지 컬렉션되어 소리가 끊기는 문제)를 피하려고 인스턴스 필드로
+/// 계속 참조를 붙잡아 둔다.
 class TtsPlatform {
+  _SpeechSynthesisUtterance? _currentUtterance;
+
   void speak(String text) {
     _synth.cancel();
     final utterance = _SpeechSynthesisUtterance()
@@ -46,10 +58,25 @@ class TtsPlatform {
       }
     }
 
+    void clearIfCurrent() {
+      if (identical(_currentUtterance, utterance)) {
+        _currentUtterance = null;
+      }
+    }
+
+    utterance.onEnd = ((JSAny? _) {
+      clearIfCurrent();
+    }).toJS;
+    utterance.onError = ((JSAny? _) {
+      clearIfCurrent();
+    }).toJS;
+
+    _currentUtterance = utterance;
     _synth.speak(utterance);
   }
 
   Future<void> dispose() async {
     _synth.cancel();
+    _currentUtterance = null;
   }
 }
