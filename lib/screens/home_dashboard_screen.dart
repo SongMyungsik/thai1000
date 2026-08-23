@@ -4,11 +4,15 @@ import '../data/consonants_data.dart';
 import '../data/conversations_data.dart';
 import '../data/vowels_data.dart';
 import '../data/words_data.dart';
+import '../services/tts_service.dart';
 import 'guide_screen.dart';
+import 'tts_diagnostics_screen.dart';
 
 /// "홈" 탭: 환영 문구와 학습 콘텐츠 요약만 보여주는 대시보드.
 class HomeDashboardScreen extends StatelessWidget {
-  const HomeDashboardScreen({super.key});
+  const HomeDashboardScreen({super.key, required this.tts});
+
+  final TtsService tts;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +62,18 @@ class HomeDashboardScreen extends StatelessWidget {
               const SizedBox(width: 8.0),
               _StatTile(label: '대화', count: dialogues.length),
             ],
+          ),
+          const SizedBox(height: 24.0),
+          OutlinedButton.icon(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => TtsDiagnosticsScreen(tts: tts),
+                ),
+              );
+            },
+            icon: const Icon(Icons.volume_up_outlined),
+            label: const Text('발음이 안 나오나요? TTS 문제 진단'),
           ),
         ],
       ),

@@ -31,7 +31,7 @@ class _HomeShellScreenState extends State<HomeShellScreen> {
   @override
   Widget build(BuildContext context) {
     final tabs = [
-      const HomeDashboardScreen(),
+      HomeDashboardScreen(tts: _tts),
       ConsonantVowelScreen(tts: _tts),
       WordsScreen(tts: _tts),
       ToneScreen(tts: _tts),

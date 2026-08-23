@@ -9,4 +9,11 @@ class TtsService {
   void speak(String text) => _platform.speak(text);
 
   Future<void> dispose() => _platform.dispose();
+
+  // 아래는 "TTS 문제 진단" 화면 전용. 평소 화면에서는 쓰이지 않는다.
+  bool get isSupported => _platform.isSupported;
+  List<String> get voiceSummaries => _platform.voiceSummaries;
+  List<String> get diagnosticsLog => _platform.log;
+  set onDiagnosticsUpdate(void Function()? callback) =>
+      _platform.onLogUpdate = callback;
 }
