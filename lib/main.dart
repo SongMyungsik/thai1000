@@ -14,7 +14,10 @@ class ThaiLearningApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Thai Learning App',
-      theme: ThemeData(primarySwatch: Colors.teal),
+      theme: ThemeData(
+        primarySwatch: Colors.teal,
+        fontFamily: 'NotoSansThaiLooped',
+      ),
       home: const SplashScreen(),
     );
   }
