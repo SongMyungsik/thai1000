@@ -267,4 +267,35 @@ void main() {
 
     expect(find.text('학습 가이드'), findsOneWidget);
   });
+
+  testWidgets('Writing guide is reachable from home and shows the core principle', (
+    WidgetTester tester,
+  ) async {
+    await _pumpToHome(tester);
+
+    final writingButton = find.text('✍️ 자음 쓰는 법');
+    await tester.ensureVisible(writingButton);
+    await tester.pumpAndSettle();
+    await tester.tap(writingButton);
+    await tester.pumpAndSettle();
+
+    expect(find.text('핵심 원칙 한 가지'), findsOneWidget);
+  });
+
+  testWidgets('Consonant detail shows a writing hint personalized with its char', (
+    WidgetTester tester,
+  ) async {
+    await _pumpToHome(tester);
+    await _goToTab(tester, '자음모음');
+
+    await tester.tap(find.text('ก'));
+    await tester.pumpAndSettle();
+
+    final hintTitle = find.text('✍️ 쓰는 법 힌트');
+    await tester.scrollUntilVisible(hintTitle, 200.0);
+    await tester.pumpAndSettle();
+
+    expect(hintTitle, findsOneWidget);
+    expect(find.textContaining('ก에 동그란 부분'), findsOneWidget);
+  });
 }

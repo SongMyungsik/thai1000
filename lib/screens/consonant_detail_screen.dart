@@ -59,6 +59,16 @@ class ConsonantDetailScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12.0),
           _InfoCard(
+            title: '✍️ 쓰는 법 힌트',
+            children: [
+              Text(
+                '${consonant.char}에 동그란 부분(머리)이 있다면, 그 부분을 가장 먼저 '
+                '시계 반대 방향으로 그려보세요. 태국어 글자 대부분에 적용되는 원칙입니다.',
+              ),
+            ],
+          ),
+          const SizedBox(height: 12.0),
+          _InfoCard(
             title: '예시 단어',
             trailing: FilledButton.icon(
               onPressed: () => tts.speak(consonant.exampleWord),
