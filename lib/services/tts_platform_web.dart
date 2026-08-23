@@ -3,14 +3,14 @@ import 'dart:js_interop';
 @JS('speechSynthesis')
 external _SpeechSynthesis get _synth;
 
-@JS()
+@JS('SpeechSynthesis')
 extension type _SpeechSynthesis._(JSObject _) implements JSObject {
   external void cancel();
   external JSArray<_SpeechSynthesisVoice> getVoices();
   external void speak(_SpeechSynthesisUtterance utterance);
 }
 
-@JS()
+@JS('SpeechSynthesisUtterance')
 extension type _SpeechSynthesisUtterance._(JSObject _) implements JSObject {
   external _SpeechSynthesisUtterance();
   external String text;
@@ -28,13 +28,13 @@ extension type _SpeechSynthesisUtterance._(JSObject _) implements JSObject {
   external set onError(JSFunction listener);
 }
 
-@JS()
+@JS('SpeechSynthesisVoice')
 extension type _SpeechSynthesisVoice._(JSObject _) implements JSObject {
   external String get lang;
   external String get name;
 }
 
-@JS()
+@JS('SpeechSynthesisErrorEvent')
 extension type _SpeechSynthesisErrorEvent._(JSObject _) implements JSObject {
   external String get error;
 }
